@@ -1,0 +1,19 @@
+{
+ "userNames": [
+    {
+      "id": 1,
+      "username": "dewaldels",
+      "highScore": 0
+    },
+    {
+      "username": "gingerbread",
+      "score": 0,
+      "id": 2
+    },
+    {
+      "username": "aidin",
+      "score": "0",
+      "id": 3
+    }
+  ]
+}
