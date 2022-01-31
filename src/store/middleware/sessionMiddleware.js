@@ -1,3 +1,7 @@
+/**
+ * Credit to: Dewalds who created this code. I reuse this code to manage my redux login states.
+ * sessionMiddleWare Object will dispatch functions depending on session actions and store them in local storage.
+ */
 import { ACTION_SESSION_INIT, ACTION_SESSION_SET, sessionSetAction } from "../actions/sessionActions"
 
 export const sessionMiddleWare = ({dispatch}) => next => action =>{

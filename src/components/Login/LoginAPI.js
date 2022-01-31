@@ -1,4 +1,8 @@
-
+  /**
+   * Creates a LoginAPI object it will return the user information fetched from the database.
+   * If the user does not exists, then the user will be set to the database. If not we get the current user and its information.
+   * This object is used by redux to manage the login attempt action.
+   */
 export const LoginAPI = {
   async login(credentials) {
     let apiURL = "https://noroff-trivia-api.herokuapp.com";

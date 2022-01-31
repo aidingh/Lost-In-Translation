@@ -1,3 +1,8 @@
+/**
+ * Credit to: Dewalds who created this code. I reuse this code to manage my redux login states.
+ * loginReducer object will change the user states depending on action
+ */
+
 import {
   ACTION_LOGIN_ATTEMPTING,
   ACTION_LOGIN_SUCCESS,

@@ -5,31 +5,52 @@ import { useSelector } from "react-redux";
 import logo from "./images/Logos/Logo.png";
 
 function TranslationPage() {
+
+  // API-url and API-key to heruko
   let apiKEY = "1b23229d-18ca-48ec-bdeb-9c7445384f23";
   let apiURL = "https://noroff-trivia-api.herokuapp.com";
 
+  // Redux selector object to manage and access variables in all components.
   const { id, username, translations } = useSelector(
     (state) => state.sessionReducer
   );
 
+  // State objects that are managed globally in this component only.
   const [translationInput, setTranslationInput] = useState("");
   const [signImage, setSignImage] = useState([]);
   const [listObject, setListObject] = useState([]);
   const [saveTranslations, setSaveTranslations] = useState([]);
-
+  
+  // useNavigate object imported by react-router-dom. Used to navigate to another page.
   let navigate = useNavigate();
 
+  /**
+   * Function will navigate the client to profile page. 
+   * Path variable will decide the path.
+   * @param {void} undefined 
+   */
   function routeChange() {
     let path = `/profile`;
     navigate(path);
   }
 
+  /**
+   * useEffect object runs initImageList function once on render.
+   * Array parameter is empty. As it does not need to depend or run on any state updates.
+   * 
+   * @param {functional} initImageList Function to run when page renders.
+   * @param {list} undefined 
+   */
   useEffect(initImageList, []);
 
+  /**
+   * Function will run on page render by useEffect object.
+   * Function will import all images needed to map client input to sign-images.
+   * 
+   * @param {void} undefined 
+   */
   function initImageList() {
-    const images = importAll(
-      require.context("./images", false, /\.(png|jpe?g|svg)$/)
-    );
+    const images = importAll(require.context("./images", false, /\.(png|jpe?g|svg)$/));
     let selectedList = [];
 
     for (let i = 0; i < images.length; i++) {
@@ -41,12 +62,22 @@ function TranslationPage() {
     setListObject(selectedList);
   }
 
+  /**
+   * Checks if client input contains any special chars.
+   * 
+   * @param {void} undefined 
+   */
   function containsSpecialChars() {
     //eslint-disable-next-line
     const specialChars = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     return specialChars.test(translationInput);
   }
 
+  /**
+   * Checks if client input contains any numbers.
+   * 
+   * @param {void} undefined 
+   */
   function containsNumber() {
     if (/\d/.test(translationInput)) {
       alert("Cant translate numbers...please enter words.");
@@ -56,6 +87,11 @@ function TranslationPage() {
     }
   }
 
+  /**
+   * Checks if client input is greater or equal than 40.
+   * 
+   * @param {void} undefined 
+   */
   function checkInputLimit() {
     let translationChars = translationInput.split("");
     if (translationChars.length >= 40) {
@@ -65,10 +101,20 @@ function TranslationPage() {
     }
   }
 
+  /**
+   * Function is used to map image folder paths
+   * 
+   * @param {object} require 
+   */
   function importAll(r) {
     return r.keys().map(r);
   }
 
+  /**
+   * Will check client input, and if its valid it will translate the words to sign-images and display them for the clint.
+   * If the input is not valid it will alert the user what kind of error occurred.
+   * @param {void} undefined 
+   */
   function startTranslation() {
     if (!containsSpecialChars() && checkInputLimit() && !containsNumber()) {
       console.log("Translation input: " + translationInput);
@@ -91,15 +137,16 @@ function TranslationPage() {
       setSaveTranslations(saveTranslations);
       setTranslationToApi();
 
-      console.log("List of translations: " + translationPath);
     } else if (containsSpecialChars()) {
-      alert(
-        "Something went wrong translating....no special chars or white space allowed"
-      );
-      console.log("Something went wrong translating....");
+      alert("Something went wrong translating....no special chars or white space allowed");
     }
   }
 
+  /**
+   * Function makes a API-REST call to PATCH the translations made by the client. 
+   * Translations are globally managed by redux.
+   * @param {void} undefined 
+   */
   async function setTranslationToApi() {
     let apiResponse = fetch(`${apiURL}/translations/${id}`, {
       method: "PATCH",
@@ -118,26 +165,34 @@ function TranslationPage() {
     }
   }
 
+  /**
+   * Navigates the client to profile page when page button is clicked.
+   * 
+   * @param {void} undefined 
+   */
   function navigateToProfilePage() {
     routeChange();
   }
 
+  /**
+   * TranslationPage component will return a header with design elements defined.
+   * All events are ran from event listeners defined in this components return statement
+   */
   return (
     <div>
       <header className="header">
-        
         <div className="row">
           <div className="card">
-          <button
-                  id="btn-false"
-                  type="button"
-                  className="btn"
-                  style={{ display: "inline-block", marginLeft: 1600 }}
-                  onClick={navigateToProfilePage}
-                >
-                  {" "}
-                  Profile!{" "}
-                </button>
+            <button
+              id="btn-false"
+              type="button"
+              className="btn"
+              style={{ display: "inline-block", marginLeft: 1600 }}
+              onClick={navigateToProfilePage}
+            >
+              {" "}
+              Profile!{" "}
+            </button>
             <h1 id="header1"> Lost In Translation!</h1>
             <h2 id="usrInputTitle">Enter a translation</h2>
             <div className="cardItemColumn">

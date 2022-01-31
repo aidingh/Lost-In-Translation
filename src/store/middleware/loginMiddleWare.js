@@ -1,4 +1,8 @@
 
+/**
+ * Credit to: Dewalds who created this code. I reuse this code to manage my redux login states.
+ * loginMiddleWare Object will dispatch functions depending on actions
+ */
 
 import { LoginAPI } from '../../components/Login/LoginAPI'
 import {ACTION_LOGIN_ATTEMPTING, ACTION_LOGIN_SUCCESS, loginSuccessAction, loginErrorAction} from '../actions/loginActions'

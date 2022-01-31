@@ -1,3 +1,8 @@
+/**
+ * Credit to: Dewalds who created this code. I reuse this code to manage my redux login states.
+ * Returns objects ot manage action states. 
+ */
+
 export const ACTION_LOGIN_ATTEMPTING = '[login] ATTEMPTING'
 export const ACTION_LOGIN_SUCCESS = '[login] SUCCESS'
 export const ACTION_LOGIN_ERROR = '[login] ERROR'
