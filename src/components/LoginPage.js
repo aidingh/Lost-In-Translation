@@ -1,76 +1,128 @@
-import React from 'react';
-import { useState } from 'react'; 
-import { useNavigate } from "react-router-dom";
-import logo from './images/Logos/Logo.png';
+import React from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, Navigate } from "react-router-dom";
+import { loginAttemptAction } from "../store/actions/loginActions";
+import logo from "./images/Logos/Logo.png";
 
 //import logo from './src/assets/LostInTranslation_Resources/Logo.png';
 
 //can pass in props
-function LoginPage(){
-    let navigate = useNavigate(); 
-    const [username, setUsername] = useState('');
+function LoginPage() {
+  let navigate = useNavigate();
+  let apiKEY = "1b23229d-18ca-48ec-bdeb-9c7445384f23";
+  let apiURL = "https://noroff-trivia-api.herokuapp.com";
 
-    async function setUserNameToServer(){
-        console.log(username);
+  const {loggedIn} = useSelector(state => state.sessionReducer);
 
-        let apiURL = "https://noroff-trivia-api.herokuapp.com";
-        let apiKey = "1b23229d-18ca-48ec-bdeb-9c7445384f23";
+  const [username, setUsername] = useState("");
 
-      let response = fetch(`${apiURL}/translations`, {
-        method: "POST",
-        headers: {"X-API-Key": apiKey, "Content-Type": "application/json",},
-        body: JSON.stringify({
-          username: username,
-          translations: []
-        }),
-      });
+  const dispatch = useDispatch();
 
-      if ((await response).status === 201) {
-        let data = (await response).json();
-        console.log(data);
+
+  function routeChange() {
+    let path = `/translation`;
+    navigate(path);
+  }
+
+  async function setUserToApi() {
+    let response = fetch(`${apiURL}/translations`, {
+      method: "POST",
+      headers: { "X-API-Key": apiKEY, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: username,
+        translations: [],
+      }),
+    });
+
+    if ((await response).ok) {
+      let data = (await response).json();
+      return data;
+    } else {
+      console.log(
+        "Could not register " + username + " with service url: " + apiURL
+      );
+    }
+  }
+
+  const setUserNameToServer = async (event) => {
+    event.preventDefault();
+    let userResponse = fetch(`${apiURL}/translations?username=${username}`);
+    if ((await userResponse).status === 200) {
+      let data = await (await userResponse).json();
+      console.log("User name: " + username);
+      console.log(JSON.stringify(data));
+      if (data.length == 0) {
+        let dataResponse = await setUserToApi();
+        console.log("a" + JSON.stringify(dataResponse));
+        console.log("b" + JSON.stringify(userResponse));
+        //localStorage.setItem("greeting", "Hello World!");
         routeChange();
-        //return data;
-      } 
-      else {
-        console.log("Could not register " + username +  " with service url: " + apiURL);
+        return;
       }
+      else{
+        //manage sessions here
+        console.log('b' + JSON.stringify(userResponse));
+        localStorage.setItem("greeting", "Hello World!");
+        routeChange();
+        return;
       }
+    }
+    else{
+      console.log('error bro')
+    }
+  }
 
+
+
+
+
+  const startLoginAction = (event) => {
+    console.log(username);
+    event.preventDefault();
+    dispatch(loginAttemptAction(username));
+    routeChange();
+
+  }
+
+
+
+  return (
+        <>
+        {loggedIn && <Navigate to="/translation" />}
+        {!loggedIn && 
+              <header className="header">
+              <div className="row">
+                <div className="card">
+                  <h1 id="header1"> Lost In Translation!</h1>
+                  <h2 id="usrInputTitle">Lets get started</h2>
+                  <img src={logo} alt=" "></img>
+                  <div className="cardItemColumn">
+                    <form className="form-control" onSubmit={startLoginAction}>
+                      <label>Enter username</label>
       
-      function routeChange(){ 
-        let path = `/translation`; 
-        navigate(path);
-      }
-
-
-  return <div>
-<header className='header'>
-    <div className="row">
-      <div className="card">
-      <h1 id="header1"> Lost In Translation!</h1>
-      <h2 id="usrInputTitle">Lets get started</h2>
-      <img src= {logo} alt=" "></img>
-        <div className="cardItemColumn">
-
-         <div className='form-control'>
-        <label>Enter username</label>
-        <input type='text' placeholder='John Doe' value={username} onChange={(e) => setUsername(e.target.value)}/>
-        <button id="btn-false" type="button" className="btn" onClick={setUserNameToServer}> Login! </button>
-        </div>
-
-        </div>
+                      <input
+                        type="text"
+                        placeholder="John Doe"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                      />
       
-      
-      </div>
+                      <button id="btn-false" type="form-control" className="btn">
+                        {" "}
+                        Login!{" "}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </header>
+        }
+        </>
 
-      </div>
-</header>
-
-  </div>;
-
-  
-};
-
+    
+  );
+}
 
 /*const stylingObject = {
     color: 'red',

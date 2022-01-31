@@ -1,11 +1,8 @@
-//import logo from './logo.svg';
-//import './App.css';
+
 import LoginPage from "./components/LoginPage";
-//import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { BrowserRouter as Router , Routes, Route} from 'react-router-dom';
-//import {BrowserRouter, Routes, Route} from "react-router-dom";
-//import { Routes, Route } from "react-router-dom"
 import TranslationPage from "./components/TranslationPage";
+import ProfilePage from "./components/ProfilePage";
 
 function App() {
   return (
@@ -16,12 +13,9 @@ function App() {
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="translation" element={<TranslationPage />} />
-
+      <Route path="profile" element={<ProfilePage />} />
     </Routes>
   </Router>
-
-
-
     </div>
 
     

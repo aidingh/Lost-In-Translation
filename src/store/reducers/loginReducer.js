@@ -1,5 +1,5 @@
 import {
-  ACTION_LOGIN_ATTEMPT,
+  ACTION_LOGIN_ATTEMPTING,
   ACTION_LOGIN_SUCCESS,
   ACTION_LOGIN_ERROR,
 } from "../actions/loginActions";
@@ -11,7 +11,7 @@ const initalState = {
 
 export const loginReducer = (state = initalState, action) => {
   switch (action.type) {
-    case ACTION_LOGIN_ATTEMPT:
+    case ACTION_LOGIN_ATTEMPTING:
       return {
         ...state,
         loginAttempt: true,
