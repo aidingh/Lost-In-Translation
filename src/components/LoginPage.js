@@ -74,14 +74,20 @@ function LoginPage() {
   }
 
 
-
-
-
   const startLoginAction = (event) => {
-    console.log(username);
+    
     event.preventDefault();
-    dispatch(loginAttemptAction(username));
-    routeChange();
+
+    console.log(username);
+    if(username == ""){
+      alert("Please enter a username to the API to continue.")
+      return
+    }
+    else{
+      dispatch(loginAttemptAction(username));
+      routeChange();
+    }
+
 
   }
 
@@ -96,8 +102,9 @@ function LoginPage() {
                 <div className="card">
                   <h1 id="header1"> Lost In Translation!</h1>
                   <h2 id="usrInputTitle">Lets get started</h2>
-                  <img src={logo} alt=" "></img>
+                  
                   <div className="cardItemColumn">
+                  <img src={logo} style={{width:320, height: 320}} alt=" "></img>
                     <form className="form-control" onSubmit={startLoginAction}>
                       <label>Enter username</label>
       
@@ -108,7 +115,7 @@ function LoginPage() {
                         onChange={(e) => setUsername(e.target.value)}
                       />
       
-                      <button id="btn-false" type="form-control" className="btn">
+                      <button id="btn-login" style={{width:200}} type="form-control" className="btn">
                         {" "}
                         Login!{" "}
                       </button>

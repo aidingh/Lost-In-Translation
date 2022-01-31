@@ -4,11 +4,10 @@ export const LoginAPI = {
     let apiURL = "https://noroff-trivia-api.herokuapp.com";
     let apiKEY = "1b23229d-18ca-48ec-bdeb-9c7445384f23";
 
-  
       let userResponse = fetch(`${apiURL}/translations?username=${credentials}`);
       if ((await userResponse).ok) {
         let data = await (await userResponse).json();
-
+      
         if (data.length == 0) {
           let response = fetch(`${apiURL}/translations`, {
             method: "POST",
@@ -19,13 +18,11 @@ export const LoginAPI = {
             }),
           });
           let newResponse = await (await response).json();
-          console.log('a' + JSON.stringify(newResponse))
           return newResponse
         }
         else{
-          console.log('b' + JSON.stringify(data))
-          
-          return data
+          let newData = { username: data[0].username, translations: data[0].translations, id: data[0].id }
+          return newData
         }
       }
       else{
