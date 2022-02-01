@@ -48,7 +48,7 @@ function LoginPage() {
   };
 
   /**
-   * LoginPage component will return a header will design elements defined.
+   * LoginPage component will return a header with design elements defined.
    * loggedIn variable is used to redirect user to translation page if he is logged in.
    * All events are ran from event listeners defined in this components return statement
    */

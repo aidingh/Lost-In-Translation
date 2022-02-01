@@ -34,7 +34,6 @@ function ProfilePage() {
     navigate(path);
   }
   
-
 /**
  * Function will run on page render by useEffect object.
  * Function will get all the translations made by the client.
@@ -57,7 +56,7 @@ function ProfilePage() {
   }, []);
 
 /**
- * Will run on click by client. Function will clear localstorage created by redux session management.
+ * Will run on click by client. Function will clear local storage created by redux session management.
  * dispatch is run to tell the session that the client has logged out.
  * 
  * @param {void} undefined 
@@ -96,7 +95,7 @@ function ProfilePage() {
 
    /**
    * ProfilePage component will return a header with design elements defined.
-   * All events are ran from event listeners defined in this components return statement
+   * All events are ran from event listeners defined in this components return statement.
    */
   return (
     <div>
